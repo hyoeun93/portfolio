@@ -32,10 +32,22 @@ contactMeButton.addEventListener('click', () => {
 // Handle Home fading out as scroll
 const home = document.querySelector('.home__container');
 const homeHeight = home.getBoundingClientRect().height;
-console.log(homeHeight * 0.5);
 document.addEventListener('scroll', () => {
-  console.log(1 - window.scrollY / homeHeight);
   home.style.opacity = 1 - window.scrollY / homeHeight;
+});
+
+// Create arrow-up button and functionality
+const arrowUp = document.querySelector('.arrow-up');
+document.addEventListener('scroll', () => {
+  if (window.scrollY > homeHeight / 2) {
+    arrowUp.classList.add('visible');
+  } else {
+    arrowUp.classList.remove('visible');
+  }
+});
+
+arrowUp.addEventListener('click', (event) => {
+  scrollIntoView('#home');
 });
 
 function scrollIntoView(selector) {
