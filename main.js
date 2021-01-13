@@ -20,6 +20,7 @@ navbarMenu.addEventListener('click', (event) => {
   if (link == null) {
     return;
   }
+  navbarMenu.classList.remove('open');
   scrollIntoView(link);
 });
 
@@ -80,6 +81,14 @@ projectsBtn.addEventListener('click', (event) => {
     });
     projectContainer.classList.remove('anim-out');
   }, 300);
+});
+
+// Add navbar menu on menu click from small screen
+const menuSelected = document.querySelector('.navbar_toggle-btn');
+
+menuSelected.addEventListener('click', () => {
+  console.log(navbarMenu);
+  navbarMenu.classList.toggle('open');
 });
 
 function scrollIntoView(selector) {
