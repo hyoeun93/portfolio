@@ -91,7 +91,56 @@ menuSelected.addEventListener('click', () => {
   navbarMenu.classList.toggle('open');
 });
 
+// IntersectionObserver
+
+const sectionIds = ['#home', '#about', '#skills', '#work', '#contact'];
+
+const sections = sectionIds.map((id) => document.querySelector(id));
+const navItems = sectionIds.map((id) =>
+  document.querySelector(`[data-link="${id}"]`)
+);
+let selectedNavItem = navItems[0];
+let selectedIdx = 0;
+function selectNavItem(selected) {
+  console.log(selected);
+  selectedNavItem.classList.remove('active');
+  selectedNavItem = selected;
+  selectedNavItem.classList.add('active');
+}
 function scrollIntoView(selector) {
   const scrollTo = document.querySelector(selector);
   scrollTo.scrollIntoView({ behavior: 'smooth' });
+  selectNavItem(navItems[sectionIds.indexOf(selector)]);
 }
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.3,
+};
+const observerCallback = (entries, observer) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+      const index = sectionIds.indexOf(`#${entry.target.id}`);
+      //   when scrolling down
+      if (entry.boundingClientRect.y < 0) {
+        selectedIdx = index + 1;
+      } else {
+        selectedIdx = index - 1;
+      }
+    }
+  });
+};
+const observer = new IntersectionObserver(observerCallback, observerOptions);
+sections.forEach((section) => observer.observe(section));
+
+window.addEventListener('wheel', () => {
+  if (window.scrollY === 0) {
+    selectedIdx = 0;
+  } else if (
+    Math.round(window.scrollY + window.innerHeight) >=
+    document.body.clientHeight
+  ) {
+    selectedIdx = navItems.length - 1;
+  }
+  selectNavItem(navItems[selectedIdx]);
+});
