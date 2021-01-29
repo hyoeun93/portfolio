@@ -87,7 +87,6 @@ projectsBtn.addEventListener('click', (event) => {
 const menuSelected = document.querySelector('.navbar_toggle-btn');
 
 menuSelected.addEventListener('click', () => {
-  console.log(navbarMenu);
   navbarMenu.classList.toggle('open');
 });
 
@@ -102,7 +101,6 @@ const navItems = sectionIds.map((id) =>
 let selectedNavItem = navItems[0];
 let selectedIdx = 0;
 function selectNavItem(selected) {
-  console.log(selected);
   selectedNavItem.classList.remove('active');
   selectedNavItem = selected;
   selectedNavItem.classList.add('active');
